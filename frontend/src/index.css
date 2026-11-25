@@ -1,0 +1,675 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ==========================================================================
+   REHMAN PERFUME — base layer
+   Design language: "Haute Parfumerie Prestige"
+   Pure white gallery canvas, obsidian contrast blocks, champagne-gold accents.
+   ========================================================================== */
+
+@layer base {
+  :root {
+    --header-offset: 7.5rem;
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+    /* Lenis owns scrolling. `smooth` here would also make the *browser* animate
+       every programmatic scroll, and the two animations fight — which shows up
+       as a stutter on navigation and on same-page anchor jumps. */
+    scroll-behavior: auto;
+    overflow-x: hidden;
+  }
+
+  body {
+    @apply bg-white text-brand-charcoal antialiased;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    font-weight: 400;
+    font-size: 16.5px;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  /* `clip` contains horizontal overflow without making the element a scroll
+     container the way `hidden` does. That matters here: a scroll container
+     breaks `position: sticky` on the header and hands Lenis a second axis to
+     fight over. Fall back to `hidden` where `clip` is not supported. */
+  @supports (overflow: clip) {
+    html,
+    body {
+      overflow-x: clip;
+    }
+  }
+
+  /* --------------------------------------------------------------------------
+     PRESTIGE LUXURY TYPOGRAPHY SYSTEM
+     Hero heading:         Cormorant Garamond 500
+     Section headings:     Cormorant Garamond 600
+     Product names:        Manrope 600
+     Category names:       Manrope 600
+     Navigation:           Manrope 600
+     Product descriptions: Inter 400
+     Prices:               Inter 600
+     Instructions/notes:   Inter 400 (+15% larger)
+     -------------------------------------------------------------------------- */
+
+  /* Hero Headings: Cormorant Garamond 500 */
+  .hero-heading,
+  [data-hero-heading],
+  .font-hero {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-weight: 500;
+  }
+
+  /* Section Headings: Cormorant Garamond 600 */
+  h1,
+  h2,
+  .section-heading,
+  .font-section-heading,
+  .font-serif {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+
+  /* Product Names: Manrope 600 */
+  .product-name,
+  .product-title,
+  [data-product-name] {
+    font-family: 'Manrope', system-ui, -apple-system, sans-serif;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+
+  /* Category Names: Manrope 600 */
+  .category-name,
+  .category-title,
+  .category-pill,
+  [data-category-name] {
+    font-family: 'Manrope', system-ui, -apple-system, sans-serif;
+    font-weight: 600;
+  }
+
+  /* Navigation: Manrope 600 */
+  nav a,
+  nav button,
+  .nav-link,
+  .mobile-nav-link,
+  .header-nav,
+  header nav,
+  footer nav a {
+    font-family: 'Manrope', system-ui, -apple-system, sans-serif;
+    font-weight: 600;
+  }
+
+  /* Product Descriptions: Inter 400, +20% size */
+  .product-description,
+  .product-tagline,
+  .product-desc {
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    font-weight: 400;
+    font-size: 1.12em;
+    line-height: 1.65;
+  }
+
+  /* Prices: Inter 600 */
+  .product-price,
+  .price,
+  .price-tag,
+  .tabular-price,
+  .price-value,
+  [data-price] {
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    font-weight: 600;
+  }
+
+  /* Instructions / Notes: Inter 400, +20% size */
+  .product-notes,
+  .fragrance-notes,
+  .notes-pyramid,
+  .note-item,
+  .product-instructions,
+  .how-to-wear {
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    font-weight: 400;
+    font-size: 1.20em;
+    line-height: 1.6;
+  }
+
+  ::selection {
+    @apply bg-brand-gold text-white;
+  }
+
+  /* Slim champagne scrollbars with transparent track */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: #D8B878 transparent;
+  }
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    @apply bg-brand-gold rounded-full;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-brand-goldDark;
+  }
+
+  /* Kill the number-input spinners inside quantity steppers */
+  input[type='number']::-webkit-outer-spin-button,
+  input[type='number']::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+  input[type='number'] {
+    -moz-appearance: textfield;
+  }
+
+  /* Keyboard focus only — never a ring on mouse clicks */
+  :focus-visible {
+    @apply outline-none ring-2 ring-brand-gold ring-offset-2 ring-offset-white;
+  }
+}
+
+@layer components {
+  /* --- Layout ------------------------------------------------------------ */
+  .shell {
+    @apply mx-auto w-full max-w-[1620px] px-4 sm:px-6 lg:px-8 xl:px-12;
+  }
+  .shell-wide {
+    @apply mx-auto w-full max-w-[1740px] px-4 sm:px-6 lg:px-8 xl:px-12;
+  }
+
+  /* --- Typography helpers ------------------------------------------------ */
+  .eyebrow {
+    @apply text-label-md font-bold uppercase text-brand-muted;
+  }
+  .hairline {
+    @apply border-b border-brand-border/70;
+  }
+  .link-underline {
+    @apply underline decoration-brand-gold underline-offset-4 hover:decoration-brand-goldDark;
+  }
+
+  /* --- Surfaces ---------------------------------------------------------- */
+  .card-surface {
+    @apply rounded-xl border border-[#ECE0CC] bg-gradient-to-b from-white via-[#FFFDF9] to-[#FDF6EB]/85 shadow-card;
+  }
+  .card-lift {
+    @apply transition-all duration-300 hover:-translate-y-1.5 hover:border-brand-gold/65 hover:shadow-[0_16px_36px_-12px_rgba(200,155,60,0.24)];
+  }
+  .bridal-canvas {
+    background:
+      radial-gradient(35% 55% at 2% 35%, rgba(251, 226, 232, 0.42) 0%, rgba(251, 226, 232, 0) 75%),
+      radial-gradient(35% 55% at 98% 40%, rgba(247, 232, 200, 0.46) 0%, rgba(247, 232, 200, 0) 75%),
+      radial-gradient(55% 45% at 10% 8%, rgba(251, 226, 232, 0.42) 0%, rgba(251, 226, 232, 0) 70%),
+      radial-gradient(55% 45% at 92% 18%, rgba(247, 232, 200, 0.48) 0%, rgba(247, 232, 200, 0) 72%),
+      radial-gradient(50% 45% at 50% 92%, rgba(244, 235, 250, 0.32) 0%, rgba(244, 235, 250, 0) 75%),
+      linear-gradient(180deg, #FFFFFF 0%, #FFFDF9 50%, #FDF7F2 100%);
+  }
+  .bridal-banner {
+    background:
+      radial-gradient(45% 85% at 12% 20%, rgba(250, 222, 229, 0.55) 0%, rgba(250, 222, 229, 0) 72%),
+      radial-gradient(42% 85% at 62% 80%, rgba(245, 225, 184, 0.52) 0%, rgba(245, 225, 184, 0) 74%),
+      linear-gradient(125deg, #FFFFFF 0%, #FFFBF4 45%, #FDF2F4 78%, #FBF3E4 100%);
+  }
+  .bridal-gold-divider {
+    background: linear-gradient(90deg, rgba(216, 184, 120, 0) 0%, rgba(200, 155, 60, 0.55) 28%, rgba(240, 206, 214, 0.85) 52%, rgba(200, 155, 60, 0.55) 75%, rgba(216, 184, 120, 0) 100%);
+    background-size: 200% 100%;
+    animation: bridal-sheen 7s linear infinite;
+  }
+  .obsidian-panel {
+    @apply rounded-xl border border-neutral-800 bg-brand-charcoal text-brand-ivory;
+  }
+
+  /* --- Product media dissolve --------------------------------------------
+     Cards hand off from one shot to the other instead of turning over. The
+     plate leans in a hair as it happens, which is what keeps a long fade from
+     reading as a stall.
+
+     The hand-off is strictly sequential, in both directions: the outgoing
+     image reaches zero and only then does the incoming one start. Nothing is
+     ever half-visible at the same time, so there is no frame where the two
+     images blend into each other — and because it holds on the way back out
+     too, leaving a card unwinds the same way it arrived, note card first, shot
+     second. The cost is a beat where the stage shows only its own ground, and
+     that beat is the point: it is what makes the two images read as a swap
+     rather than an overlay.
+
+     Getting the sequence right needs a different transition on each side of
+     the hover, because the browser takes `transition-*` from the state it is
+     moving *to*, not the one it is leaving. So the resting rules describe the
+     way back (arriving late) and the hovered rules describe the way in
+     (arriving late), and each face carries a delay that outlasts the other
+     face's fade.
+
+     The stage is portrait and the note card is landscape, so the outgoing shot
+     really does have to reach zero — `contain` leaves bands top and bottom
+     that would otherwise keep showing the photograph behind the card.
+
+     Driven by a `group` ancestor, matching `group-hover:` elsewhere: a stage
+     without one simply holds its first face rather than dissolving on
+     somebody else's hover.
+     ---------------------------------------------------------------------- */
+  .media-dissolve {
+    transition: transform 500ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .group:hover .media-dissolve {
+    transform: scale(1.02);
+  }
+
+  /* Resting state. Hovering *out* lands here: the alternate face leaves quickly
+     before the primary shot returns. */
+  .media-face-base {
+    transition: opacity 240ms cubic-bezier(0.16, 1, 0.3, 1) 140ms;
+  }
+  .media-face-alt {
+    opacity: 0;
+    transition: opacity 220ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  /* Hovered state. Only dissolve if an alternate face is actually present inside a .media-dissolve container */
+  .group:hover .media-dissolve.has-alt .media-face-base {
+    opacity: 0;
+    transition: opacity 180ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .group:hover .media-dissolve.has-alt .media-face-alt {
+    opacity: 1;
+    transition: opacity 260ms cubic-bezier(0.16, 1, 0.3, 1) 120ms;
+  }
+
+  /* --- Photographed pillar card ------------------------------------------
+     A pillar that has a photograph wears it alone. The copy fades up over the
+     picture when the pointer arrives, and the veil underneath it comes and
+     goes with the copy — it exists only so the type has something to sit on,
+     so a resting card is the photograph and nothing else.
+
+     Both rules live behind `hover: hover`, which is what lets the copy simply
+     stay put on a touch screen: there is no hover there to reveal it, so
+     hiding it would put the card's own call to action out of reach.
+     ---------------------------------------------------------------------- */
+  .pillar-copy,
+  .pillar-veil {
+    transition: opacity 600ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  @media (hover: hover) {
+    .pillar-copy,
+    .pillar-veil {
+      opacity: 0;
+    }
+    .group:hover .pillar-copy,
+    .group:focus-within .pillar-copy,
+    .group:hover .pillar-veil,
+    .group:focus-within .pillar-veil {
+      opacity: 1;
+    }
+  }
+
+  /* --- Dual-thumb range ---------------------------------------------------
+     Two native range inputs stacked on one track, which is what buys a real
+     min/max pair without a slider library: each thumb keeps its own keyboard
+     and pointer semantics, and the accessible names on the inputs are what
+     tell a screen reader which end is being moved.
+
+     Both inputs are `pointer-events: none` so they can overlap without the
+     upper one swallowing every click; only the thumbs opt back in. The visible
+     track and the filled span between the thumbs are ordinary divs underneath,
+     so nothing depends on how a given engine paints a runnable track.
+     ---------------------------------------------------------------------- */
+  .range-dual {
+    -webkit-appearance: none;
+    appearance: none;
+    background: transparent;
+    pointer-events: none;
+  }
+  .range-dual::-webkit-slider-runnable-track {
+    height: 100%;
+    background: transparent;
+  }
+  .range-dual::-moz-range-track {
+    height: 100%;
+    background: transparent;
+  }
+  .range-dual::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    pointer-events: auto;
+    height: 1.125rem;
+    width: 1.125rem;
+    border-radius: 9999px;
+    border: 2px solid #fff;
+    background: #c89b3c; /* brand.goldDark */
+    box-shadow: 0 1px 4px rgb(17 16 15 / 0.28);
+    cursor: grab;
+    transition: transform 150ms ease-out, box-shadow 150ms ease-out;
+  }
+  .range-dual::-moz-range-thumb {
+    pointer-events: auto;
+    height: 1.125rem;
+    width: 1.125rem;
+    border-radius: 9999px;
+    border: 2px solid #fff;
+    background: #c89b3c; /* brand.goldDark */
+    box-shadow: 0 1px 4px rgb(17 16 15 / 0.28);
+    cursor: grab;
+    transition: transform 150ms ease-out, box-shadow 150ms ease-out;
+  }
+  .range-dual:hover::-webkit-slider-thumb,
+  .range-dual:focus-visible::-webkit-slider-thumb {
+    transform: scale(1.12);
+  }
+  .range-dual:hover::-moz-range-thumb,
+  .range-dual:focus-visible::-moz-range-thumb {
+    transform: scale(1.12);
+  }
+  .range-dual:active::-webkit-slider-thumb {
+    cursor: grabbing;
+  }
+  /* The native focus ring is drawn on the input, which is invisible here, so
+     the thumb carries it instead. */
+  .range-dual:focus-visible {
+    outline: none;
+  }
+  .range-dual:focus-visible::-webkit-slider-thumb {
+    box-shadow: 0 0 0 3px rgb(200 155 60 / 0.4);
+  }
+  .range-dual:focus-visible::-moz-range-thumb {
+    box-shadow: 0 0 0 3px rgb(200 155 60 / 0.4);
+  }
+
+  /* --- Buttons ----------------------------------------------------------- */
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-full text-label-md font-semibold uppercase tracking-[0.06em]
+           transition-all duration-200 disabled:cursor-not-allowed disabled:opacity-50;
+  }
+  .btn-md {
+    @apply px-6 py-3;
+  }
+  .btn-sm {
+    @apply px-4 py-2 text-label-sm;
+  }
+  .btn-lg {
+    @apply px-8 py-3.5 text-label-lg;
+  }
+
+  .btn-primary {
+    @apply bg-brand-charcoal text-brand-ivory hover:bg-brand-goldDark;
+  }
+  .btn-gold {
+    @apply bg-brand-gold text-brand-charcoal hover:bg-brand-goldDark hover:text-white;
+  }
+  .btn-outline {
+    @apply border border-brand-gold bg-transparent text-brand-charcoal hover:bg-brand-gold/10;
+  }
+  .btn-outline-inverse {
+    @apply border border-brand-gold/70 bg-transparent text-brand-ivory hover:bg-white/10;
+  }
+  .btn-ghost {
+    @apply bg-transparent text-brand-charcoal hover:bg-neutral-100;
+  }
+  .btn-white {
+    @apply bg-white text-brand-charcoal hover:bg-brand-gold;
+  }
+
+  /* --- Form fields ------------------------------------------------------- */
+  .field {
+    @apply w-full rounded border border-brand-border bg-white px-4 py-3 text-body-sm text-brand-charcoal
+           placeholder:text-brand-muted/70 transition
+           focus:border-brand-gold focus:bg-white focus:outline-none focus:ring-1 focus:ring-brand-gold;
+  }
+  .field-label {
+    @apply mb-1.5 block text-label-sm font-bold uppercase text-ink-variant;
+  }
+
+  /* --- Provenance tier badges ------------------------------------------- */
+  .tier-chip {
+    @apply inline-flex items-center gap-1 rounded-full border px-2.5 py-1 text-label-sm font-bold uppercase;
+  }
+
+  /* Kept as a clean utility hook without background texture for pure-white minimalism. */
+  .dot-grid {
+    background-image: none;
+  }
+
+  /* --- Utility ----------------------------------------------------------- */
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .snap-rail {
+    @apply flex snap-x snap-mandatory gap-5 overflow-x-auto pb-2;
+  }
+  .snap-rail > * {
+    @apply snap-start;
+  }
+
+  /* Continuous right-to-left running marquee for brand logos */
+  .brand-marquee-track {
+    display: flex;
+    width: max-content;
+    animation: brand-marquee-rtl var(--marquee-duration, 28s) linear infinite;
+    will-change: transform;
+  }
+  .brand-marquee:hover .brand-marquee-track,
+  .brand-marquee:focus-within .brand-marquee-track {
+    animation-play-state: paused;
+  }
+
+  /* --- Scroll reveal ------------------------------------------------------ */
+  /* Driven by <Reveal>, which flips data-reveal to "in" when the element enters
+     the viewport. Duration and delay come in as custom properties so a group can
+     be staggered without generating a class per step.
+     The curve is a near-exponential ease-out: quick to start, very long tail,
+     no overshoot. Only opacity and transform are animated, so this stays on the
+     compositor and never triggers layout. */
+  .reveal {
+    opacity: 0;
+    transform: translate3d(0, var(--reveal-y, 28px), 0);
+    transition:
+      opacity var(--reveal-duration, 1100ms) cubic-bezier(0.16, 1, 0.3, 1) var(--reveal-delay, 0ms),
+      transform var(--reveal-duration, 1100ms) cubic-bezier(0.16, 1, 0.3, 1) var(--reveal-delay, 0ms);
+  }
+  .reveal[data-reveal='in'] {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+  .text-pretty {
+    text-wrap: pretty;
+  }
+  /* Respect the reduced-motion preference across every animation */
+  @media (prefers-reduced-motion: reduce) {
+    .animate-fade-in,
+    .animate-slide-up,
+    .animate-scale-in,
+    .animate-slide-in-right,
+    .animate-bridal-float,
+    .animate-bridal-aura,
+    .animate-bridal-sheen,
+    .bridal-gold-divider {
+      animation: none !important;
+    }
+
+    /* Reveals are the one animation that can hide content outright, so when
+       motion is off they must resolve to their finished state rather than
+       simply stopping where they are. */
+    .reveal {
+      opacity: 1 !important;
+      transform: none !important;
+      transition: none !important;
+    }
+
+    /* The hover swap still has to happen — it is the feedback that the card is
+       interactive — so it resolves outright instead of dissolving. */
+    .media-dissolve,
+    .media-face-base,
+    .media-face-alt {
+      transition: none !important;
+    }
+    .group:hover .media-dissolve {
+      transform: none !important;
+    }
+
+    /* The card still has to hand its copy over — that is the feedback that it
+       is interactive — so it resolves outright instead of dissolving. */
+    .pillar-copy,
+    .pillar-veil {
+      transition: none !important;
+    }
+
+    /* Route changes resolve instantly rather than dissolving. */
+    ::view-transition-old(root),
+    ::view-transition-new(root) {
+      animation: none !important;
+    }
+    .route-enter {
+      animation: none !important;
+    }
+  }
+}
+
+/* ==========================================================================
+   ROUTE TRANSITIONS
+
+   Where the browser supports View Transitions, React Router wraps each
+   navigation in one and hands us two snapshots — the page as it was and the
+   page as it became. Styling them here means nothing has to know which route is
+   leaving or arriving, or coordinate an exit animation by hand.
+
+   The page ground is the same either side (ivory body, persistent header and
+   footer), so what the reader actually sees is the content dissolving into the
+   next page. The incoming snapshot is given the longer, slower half; the
+   outgoing one clears out from under it. Opacity only — no transform — because
+   scaling or lifting the root snapshot would move the sticky chrome with it,
+   and the chrome is meant to be the one thing that never moves.
+   ========================================================================== */
+
+@keyframes route-dissolve-out {
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes route-dissolve-in {
+  from {
+    opacity: 0;
+  }
+}
+
+::view-transition {
+  background-color: #FFFFFF;
+}
+
+::view-transition-old(root) {
+  animation: route-dissolve-out 140ms ease-out both;
+}
+
+::view-transition-new(root) {
+  animation: route-dissolve-in 180ms ease-in both;
+}
+
+/* Browsers without View Transitions — Firefox, today — never run the rules
+   above, so the route would swap with no transition at all. This is the same
+   dissolve expressed as a plain entrance on the incoming page.
+
+   `vt-off` is set by `lib/viewTransitions.js` using the identical test React
+   Router makes, rather than a `@supports` query that could disagree with it. */
+@keyframes route-rise {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 14px, 0);
+  }
+}
+
+.vt-off .route-enter {
+  animation: route-rise 520ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes brand-marquee-rtl {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  100% {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+/* ==========================================================================
+   OFFICIAL TAX INVOICE PRINT STYLES
+   Ensures window.print() outputs ONLY the official 1-page A4 Tax Invoice,
+   hiding all website navigation, headers, footers, buttons, and UI controls.
+   ========================================================================== */
+
+@media print {
+  @page {
+    size: A4 portrait;
+    margin: 8mm 10mm;
+  }
+
+  html,
+  body {
+    background: #ffffff !important;
+    color: #1E293B !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow: hidden !important;
+    height: 100% !important;
+    max-height: 100% !important;
+    font-size: 11pt !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  /* Hide all website chrome and navigation elements */
+  header,
+  footer,
+  nav,
+  .app-header,
+  .bridal-banner,
+  .no-print,
+  button,
+  [aria-label="Breadcrumb"],
+  .empty-state {
+    display: none !important;
+  }
+
+  /* Ensure the printable tax invoice occupies the full printed sheet and never splits */
+  #printable-tax-invoice {
+    display: block !important;
+    visibility: visible !important;
+    position: static !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: none !important;
+    box-shadow: none !important;
+    background: #ffffff !important;
+    page-break-after: avoid !important;
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+  }
+
+  /* Prevent page splits inside table rows and totals */
+  .page-break-inside-avoid,
+  tr,
+  header {
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+  }
+}
+

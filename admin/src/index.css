@@ -1,0 +1,300 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ==========================================================================
+   REHMAN PERFUME — Admin panel
+   Pure white gallery ground, hairline cards, obsidian chrome, gold accents.
+   ========================================================================== */
+
+@layer base {
+  :root {
+    /* Consumed by the sticky content offsets in the shell */
+    --shell-sidebar: 18rem; /* w-72 */
+    --shell-topbar: 4rem; /* h-16 */
+  }
+
+  /* The desktop icon rail.
+     `AdminShell` puts `data-sidebar` on the shell root and this re-points
+     `--shell-sidebar` for that whole subtree — so the sidebar's own width, the
+     topbar's `left` and the content well's `padding-left` all follow one value
+     and cannot drift apart the way three hand-kept classes would.
+
+     Scoped to `lg`, matching the breakpoint at which the sidebar stops being a
+     drawer and becomes fixed chrome. Below it the variable stays 18rem, so the
+     mobile drawer keeps its full width no matter what the rail is doing. */
+  @media (min-width: 1024px) {
+    [data-sidebar='collapsed'] {
+      --shell-sidebar: 4.5rem; /* 72px — icon rail */
+    }
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    @apply bg-white text-ink font-sans text-body-md antialiased;
+    overflow-x: hidden;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    @apply font-sans;
+    letter-spacing: -0.015em;
+  }
+
+  ::selection {
+    @apply bg-brand-gold text-brand-goldInk;
+  }
+
+  /* --- Luxury Minimal Scrollbars ------------------------------------------
+     Transparent tracks ensure dark chrome (like the obsidian sidebar) never gets
+     a clunky, light-gray gutter. Slim 5px pill thumb with smooth hover state. */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(0, 0, 0, 0.18) transparent;
+  }
+
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.18);
+    border-radius: 9999px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgba(0, 0, 0, 0.35);
+  }
+
+  /* Dark surfaces & Obsidian Sidebar: subtle white/gold thumb, 100% transparent track */
+  #admin-sidebar,
+  #admin-sidebar *,
+  [class*='bg-shell-obsidian'],
+  [class*='bg-shell-obsidian'] *,
+  .dark-scroll,
+  .dark-scroll * {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 255, 255, 0.16) transparent;
+  }
+
+  #admin-sidebar::-webkit-scrollbar,
+  #admin-sidebar *::-webkit-scrollbar,
+  [class*='bg-shell-obsidian']::-webkit-scrollbar,
+  [class*='bg-shell-obsidian'] *::-webkit-scrollbar,
+  .dark-scroll::-webkit-scrollbar,
+  .dark-scroll *::-webkit-scrollbar {
+    width: 4px;
+    height: 4px;
+  }
+  #admin-sidebar::-webkit-scrollbar-track,
+  #admin-sidebar *::-webkit-scrollbar-track,
+  [class*='bg-shell-obsidian']::-webkit-scrollbar-track,
+  [class*='bg-shell-obsidian'] *::-webkit-scrollbar-track,
+  .dark-scroll::-webkit-scrollbar-track,
+  .dark-scroll *::-webkit-scrollbar-track {
+    background: transparent !important;
+  }
+  #admin-sidebar::-webkit-scrollbar-thumb,
+  #admin-sidebar *::-webkit-scrollbar-thumb,
+  [class*='bg-shell-obsidian']::-webkit-scrollbar-thumb,
+  [class*='bg-shell-obsidian'] *::-webkit-scrollbar-thumb,
+  .dark-scroll::-webkit-scrollbar-thumb,
+  .dark-scroll *::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.16);
+    border-radius: 9999px;
+  }
+  #admin-sidebar::-webkit-scrollbar-thumb:hover,
+  #admin-sidebar *::-webkit-scrollbar-thumb:hover,
+  [class*='bg-shell-obsidian']::-webkit-scrollbar-thumb:hover,
+  [class*='bg-shell-obsidian'] *::-webkit-scrollbar-thumb:hover,
+  .dark-scroll::-webkit-scrollbar-thumb:hover,
+  .dark-scroll *::-webkit-scrollbar-thumb:hover {
+    background: #D8B878; /* gold */
+  }
+
+  /* Ultra-clean sidebar scrollbar: hidden by default, gently appears on hover */
+  .sidebar-scroll {
+    scrollbar-width: thin;
+    scrollbar-color: transparent transparent;
+    transition: scrollbar-color 0.25s ease;
+  }
+  .sidebar-scroll:hover {
+    scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
+  }
+  .sidebar-scroll::-webkit-scrollbar {
+    width: 4px;
+  }
+  .sidebar-scroll::-webkit-scrollbar-track {
+    background: transparent !important;
+  }
+  .sidebar-scroll::-webkit-scrollbar-thumb {
+    background: transparent;
+    border-radius: 9999px;
+    transition: background-color 0.2s ease;
+  }
+  .sidebar-scroll:hover::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.2);
+  }
+  .sidebar-scroll::-webkit-scrollbar-thumb:hover {
+    background: #D8B878 !important;
+  }
+
+  /* Utility to completely hide scrollbar while preserving scrollability */
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  input[type='number']::-webkit-outer-spin-button,
+  input[type='number']::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+  input[type='number'] {
+    -moz-appearance: textfield;
+  }
+
+  :focus-visible {
+    @apply outline-none ring-2 ring-brand-gold ring-offset-2 ring-offset-brand-paper;
+  }
+}
+
+@layer components {
+  /* --- Surfaces ---------------------------------------------------------- */
+  /* Every admin panel is a pure white card with a crisp hairline on white. */
+  .card-admin {
+    @apply rounded border border-outline-variant/80 bg-white shadow-card;
+  }
+  .card-admin-flush {
+    @apply rounded border border-outline-variant/80 bg-white shadow-card overflow-hidden;
+  }
+
+  /* --- Section headings -------------------------------------------------- */
+  .panel-title {
+    @apply font-serif text-headline-sm font-semibold text-ink;
+  }
+
+  /* --- Buttons ----------------------------------------------------------- */
+  .btn {
+    @apply inline-flex items-center justify-center gap-1.5 rounded font-bold uppercase
+           transition-colors duration-150 disabled:cursor-not-allowed disabled:opacity-50;
+  }
+  .btn-sm {
+    @apply px-3 py-1.5 text-label-sm;
+  }
+  .btn-md {
+    @apply px-3.5 py-2 text-label-md;
+  }
+  .btn-lg {
+    @apply px-5 py-2.5 text-label-lg;
+  }
+
+  /* Obsidian is the admin's primary action — the storefront reserves gold for
+     its CTAs, and matching that here would flatten the hierarchy in a toolbar
+     that holds five buttons at once. */
+  .btn-primary {
+    @apply bg-shell-obsidian text-surface-low hover:bg-brand-goldDeep;
+  }
+  .btn-gold {
+    @apply bg-brand-gold text-brand-goldInk hover:bg-brand-goldDark hover:text-white;
+  }
+  .btn-outline {
+    @apply border border-outline-variant bg-brand-paper text-ink hover:border-outline hover:bg-surface-low;
+  }
+  .btn-ghost {
+    @apply bg-transparent text-ink-variant hover:bg-surface-low hover:text-ink;
+  }
+  .btn-danger {
+    @apply bg-error text-white hover:bg-state-halted;
+  }
+
+  /* --- Form fields ------------------------------------------------------- */
+  .field {
+    @apply w-full rounded border border-outline-variant bg-brand-paper px-3 py-2 text-body-sm text-ink
+           placeholder:text-ink-muted/60 transition
+           focus:border-brand-gold focus:outline-none focus:ring-1 focus:ring-brand-gold;
+  }
+  .field-label {
+    @apply mb-1.5 block text-label-sm font-bold uppercase text-ink-variant;
+  }
+
+  /* --- Tables ------------------------------------------------------------ */
+  /* Sticky header, hairline rows, no zebra striping — the mockups rely on
+     rules alone, which stays legible at this row height. */
+  .table-admin {
+    @apply w-full border-collapse text-left text-body-sm;
+  }
+  .table-admin thead th {
+    @apply sticky top-0 z-10 whitespace-nowrap border-b border-outline-variant/60 bg-surface-low/95
+           px-4 py-3 text-label-sm font-bold uppercase tracking-wider text-ink-variant backdrop-blur;
+  }
+  .table-admin tbody td {
+    @apply border-b border-outline-variant/30 px-4 py-3 align-middle text-ink;
+  }
+  .table-admin tbody tr:last-child td {
+    @apply border-b-0;
+  }
+  .table-admin tbody tr {
+    @apply transition-colors;
+  }
+  .table-admin tbody tr:hover {
+    @apply bg-surface-low/70;
+  }
+  .table-admin tbody tr[data-selected='true'] {
+    @apply bg-brand-gold/10;
+  }
+
+  /* --- Status pills ------------------------------------------------------ */
+  .pill {
+    @apply inline-flex items-center gap-1 whitespace-nowrap rounded-full px-2 py-0.5
+           text-label-sm font-bold uppercase tracking-wider;
+  }
+
+  /* --- Tier badges ------------------------------------------------------- */
+  .tier-chip {
+    @apply inline-flex items-center rounded-full border px-2 py-0.5 text-label-sm font-bold uppercase;
+  }
+
+  /* --- Decorative -------------------------------------------------------- */
+  .dot-grid {
+    background-image: none;
+  }
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .tabular {
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+  .text-pretty {
+    text-wrap: pretty;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .animate-fade-in,
+    .animate-slide-up,
+    .animate-scale-in,
+    .animate-slide-in-right {
+      animation: none !important;
+    }
+  }
+}
